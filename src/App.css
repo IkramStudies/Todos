@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+button {
+  font-size: 12px;
+}
