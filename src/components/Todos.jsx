@@ -28,17 +28,7 @@ const Todos = () => {
     setTasks([...tasks, taskToRestore]);
     setDeleted(deletedTasks.filter((val) => val.id != id));
   };
-  /*
-  const restoreTask = (id) => {
-  const taskToRestore = deletedTasks.find(
-    (val) => val.id === id
-  );
-  setTasks([...tasks, taskToRestore]);
-  setDeleted(
-    deletedTasks.filter((val) => val.id !== id)
-  );
-};
-  */
+
   const completed = (id) => {
     setTasks(
       tasks.map((val) =>
