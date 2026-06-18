@@ -3,7 +3,7 @@ import { useState } from "react";
 const Todos = () => {
   const [input, setInput] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [deletedTasks, setTask] = useState([]);
+  const [deletedTasks, setDeleted] = useState([]);
   const [editMode, setMode] = useState(false);
   const [editText, setText] = useState("");
   const [editId, setId] = useState("");
@@ -19,8 +19,22 @@ const Todos = () => {
     setMode(false);
   };
   const deleteTask = (id) => {
+    setDeleted(tasks.filter((val) => val.id == id));
     setTasks(tasks.filter((val) => val.id != id));
   };
+  const restoreTask = (id) => {
+    setTasks([...tasks, ...deletedTasks]);
+    setDeleted(deletedTasks.filter((val) => val.id != id));
+  };
+  const completed = (id) => {
+    setTasks(
+      tasks.map((val) =>
+        val.id == id ? { ...val, completed: !val.completed } : val,
+      ),
+      // ? val.completed = true, I don't understand react state updated should be immutable
+    );
+  };
+  const restore = (id) => {};
   return (
     <div className="">
       <input
@@ -52,7 +66,12 @@ const Todos = () => {
             </>
           ) : (
             <>
-              <li className="mt-3">{val.title}</li>
+              <li
+                className={val.completed ? "line-through mt-3" : "mt-3"}
+                key={val.id}
+              >
+                {val.title}
+              </li>
               <button
                 className="border p-2 rounded-sm "
                 onClick={() => {
@@ -68,7 +87,12 @@ const Todos = () => {
               >
                 Delete Task
               </button>
-              <button className="border p-2 rounded-sm">Completed </button>
+              <button
+                className="border p-2 rounded-sm"
+                onClick={() => completed(val.id)}
+              >
+                Completed{" "}
+              </button>
             </>
           ),
         )}
@@ -76,10 +100,15 @@ const Todos = () => {
       <div className="mt-10">
         Deleted
         <ul>
-          {deleteTask.map((val) => (
+          {deletedTasks.map((val) => (
             <>
-              <li>{val.title}</li>
-              <button>Restore</button>
+              <li className="pt-2">{val.title}</li>
+              <button
+                className="border p-2 rounded-sm mt-2"
+                onClick={() => restoreTask(val.id)}
+              >
+                Restore
+              </button>
             </>
           ))}
         </ul>
