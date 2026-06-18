@@ -75,7 +75,14 @@ const Todos = () => {
       </ul>
       <div className="mt-10">
         Deleted
-        <ul></ul>
+        <ul>
+          {deleteTask.map((val) => (
+            <>
+              <li>{val.title}</li>
+              <button>Restore</button>
+            </>
+          ))}
+        </ul>
       </div>
     </div>
   );
