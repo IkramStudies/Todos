@@ -19,13 +19,26 @@ const Todos = () => {
     setMode(false);
   };
   const deleteTask = (id) => {
-    setDeleted(tasks.filter((val) => val.id == id));
+    const tasktoDelete = tasks.find((val) => val.id == id);
+    setDeleted([...deletedTasks, tasktoDelete]);
     setTasks(tasks.filter((val) => val.id != id));
   };
   const restoreTask = (id) => {
-    setTasks([...tasks, ...deletedTasks]);
+    const taskToRestore = deletedTasks.find((val) => val.id == id);
+    setTasks([...tasks, taskToRestore]);
     setDeleted(deletedTasks.filter((val) => val.id != id));
   };
+  /*
+  const restoreTask = (id) => {
+  const taskToRestore = deletedTasks.find(
+    (val) => val.id === id
+  );
+  setTasks([...tasks, taskToRestore]);
+  setDeleted(
+    deletedTasks.filter((val) => val.id !== id)
+  );
+};
+  */
   const completed = (id) => {
     setTasks(
       tasks.map((val) =>
